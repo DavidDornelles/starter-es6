@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
         * {
@@ -20,17 +20,18 @@
         ul {
             list-style: none;
         }
-        li {
-            margin-bottom: 1rem;
-        }
-        .githubItem img {
+        ul img {
             float: left;
             margin-right: 0.625rem;
+            max-width: 90px;
         }
-        .githubTitle {
+        ul h3 {
             margin-bottom: 1rem;
         }
-        .githubItem p {
+        ul p {
+            margin-bottom: 1rem;
+        }
+        li {
             margin-bottom: 1rem;
         }
     </style>
@@ -40,26 +41,7 @@
         <input type="text" id="githubInput" name="githubInput">
         <button type="submit" id="githubSubmit">Adicionar</button>
     </form>
-    <ul id="githubList">
-        <li class="githubItem">
-            <img src="http://lorempixel.com/90/90" alt="" srcset="">
-            <h3 class="githubTitle">Repositório 1</h3>
-            <p class="giothubDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum lacus quis justo varius, ac accumsan urna dictum. Donec velit enim, facilisis ut interdum nec, dignissim et enim.</p>
-            <a href="#" class="githubLink">Acessar</a>
-        </li>
-        <li class="githubItem">
-            <img src="http://lorempixel.com/90/90" alt="" srcset="">
-            <h3 class="githubTitle">Repositório 2</h3>
-            <p class="giothubDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum lacus quis justo varius, ac accumsan urna dictum. Donec velit enim, facilisis ut interdum nec, dignissim et enim.</p>
-            <a href="#" class="githubLink">Acessar</a>
-        </li>
-        <li class="githubItem">
-            <img src="http://lorempixel.com/90/90" alt="" srcset="">
-            <h3 class="githubTitle">Repositório 3</h3>
-            <p class="giothubDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fermentum lacus quis justo varius, ac accumsan urna dictum. Donec velit enim, facilisis ut interdum nec, dignissim et enim.</p>
-            <a href="#" class="githubLink">Acessar</a>
-        </li>
-    </ul>
+    <ul id="githubList"></ul>
     <script src="./bundle.js"></script>
 </body>
 </html>
