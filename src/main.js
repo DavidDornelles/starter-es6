@@ -2,45 +2,57 @@ import axios from 'axios';
 
 class Api {
   static async getRepository(username) {
-    try {
-      const response = await axios.get(`https://api.github.com/users/${username}`);
-      const reposUrl = await axios.get(`https://api.github.com/users/${username}/repos`);
-      return { user: response.data, repos: reposUrl.data };
-    } catch(error) {
-      console.warn('Erro na requisição: ', error);
-    }
+    const response = await axios.get(`https://api.github.com/users/${username}`);
+    const reposUrl = await axios.get(`https://api.github.com/users/${username}/repos`);
+
+    return { user: response.data, repos: reposUrl.data };
   }
 }
 
 class Repositories {
   constructor() {
     this.repositories = [];
+    this.formInput = document.getElementById('githubInput');
+    this.repoList = document.getElementById('githubList');
+    this.formInput.setAttribute('placeholder', 'Digite o usuário.');
   }
 
   async addRepository(username) {
-    const { user, repos } = await Api.getRepository(username);
+    try {
+      if (!username) {
+        alert('Usuário não preenchido.');
+        return;
+      }
 
-    if (!user || !repos) {
-      throw new Error('Usuário ou Repositório não encontrado.');
+      const { user, repos } = await Api.getRepository(username);
+
+      const { avatar_url, bio, name } = user;
+      const infosRepos = repos.map(
+        repo => (
+          {
+            name: repo.name,
+            url: repo.html_url }
+        )
+      );
+      this.repositories.push({
+        avatar: avatar_url,
+        bio,
+        name,
+        repos: infosRepos
+      });
+      
+    } catch {
+      alert('Usuário não encontrado.');
     }
 
-    const { avatar_url, bio, name } = user;
-    const infosRepos = repos.map(
-      repo => (
-        {
-          name: repo.name,
-          url: repo.html_url }
-      )
-    );
-
-    this.repositories.push({ avatar: avatar_url, bio, name, repos: infosRepos });
     this.listRepositories();
   }
 
   listRepositories() {
     console.log(this.repositories);
-    const repoList = document.getElementById('githubList');
-    repoList.innerHTML='';
+
+    this.formInput.value = '';
+    this.repoList.innerHTML= '';
     
     this.repositories.forEach(user => {
       let repoImage = document.createElement('img');
@@ -48,13 +60,13 @@ class Repositories {
       let repoDescription = document.createElement('p');
 
       repoImage.setAttribute('src', user.avatar);
-      repoList.appendChild(repoImage);
+      this.repoList.appendChild(repoImage);
       
       repoTitle.innerHTML = user.name;
-      repoList.appendChild(repoTitle);
+      this.repoList.appendChild(repoTitle);
       
       repoDescription.innerHTML = user.bio
-      repoList.appendChild(repoDescription);
+      this.repoList.appendChild(repoDescription);
       
       user.repos.map(repo => {
         const repoItem = document.createElement('li');
@@ -62,7 +74,7 @@ class Repositories {
         const repoLink = document.createElement('a');
         repoLink.innerHTML = 'Acessar';
 
-        repoList.appendChild(repoItem);
+        this.repoList.appendChild(repoItem);
 
         repoSubtitle.innerHTML = repo.name;
         repoItem.appendChild(repoSubtitle);
